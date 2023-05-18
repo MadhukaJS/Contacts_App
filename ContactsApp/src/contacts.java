@@ -1,4 +1,6 @@
 
+import net.proteanit.sql.DbUtils;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,11 +45,26 @@ public class contacts {
         }
 
     }
+    //read on table
+    public void table_view(){
+        try{
+            pst=con.prepareStatement("select*from mycontacts");
+            ResultSet rs= pst.executeQuery();
+            contactTable.setModel(DbUtils.resultSetToTableModel(rs));
+        }
+        catch (SQLException ex){
+            ex.printStackTrace();
 
+
+        }
+    }
 
 
     public contacts() {
         connect();
+        table_view();
+
+        //save button
     saveButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -71,12 +88,23 @@ public class contacts {
 
         }
         catch (SQLException ex) {
-            ex.printStackTrace();
+            throw new RuntimeException(ex);
 
         }
 
 
         }
     });
-}
+
+
+
+
+
+        updateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+    }
 }
