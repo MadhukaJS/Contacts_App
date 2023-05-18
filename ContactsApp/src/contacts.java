@@ -86,6 +86,7 @@ public class contacts {
             contactName.setText("");
             contactNum.setText("");
             contactName.requestFocus();
+            table_view();
 
         }
         catch (SQLException ex) {
@@ -99,7 +100,7 @@ public class contacts {
 
 
 
-
+//update button
 
         updateButton.addActionListener(new ActionListener() {
             @Override
@@ -124,6 +125,7 @@ public class contacts {
                     contactNum.setText("");
                     idc.setText("");
                     contactName.requestFocus();
+                    table_view();
 
                 }
                 catch (SQLException ex) {
@@ -131,6 +133,39 @@ public class contacts {
 
                 }
 
+            }
+        });
+
+
+//delete button
+
+
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String cid;
+
+                cid=idc.getText();
+
+                try{
+                    pst=con.prepareStatement("delete from mycontacts where cid=?");
+                    pst.setString(1,cid);
+
+                    pst.executeUpdate();
+                    JOptionPane.showMessageDialog(null,"Contact deleted successfully!");
+
+                    contactName.setText("");
+                    contactNum.setText("");
+                    idc.setText("");
+                    contactName.requestFocus();
+                    table_view();
+
+
+                }
+                catch(SQLException ex){
+                    ex.printStackTrace();
+                }
             }
         });
     }
