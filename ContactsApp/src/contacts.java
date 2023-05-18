@@ -18,6 +18,7 @@ public class contacts {
     private JButton deleteButton;
     private JLabel Cname;
     private JLabel Cnumber;
+    private JTextField idc;
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("contacts");
@@ -71,8 +72,8 @@ public class contacts {
 
         String name,number;
 
-        name=Cname.getText();
-        number=Cnumber.getText();
+        name=contactName.getText();
+        number=contactNum.getText();
 
         try{
             pst=con.prepareStatement("insert into mycontacts(name,number)values(?,?)");
@@ -82,13 +83,13 @@ public class contacts {
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null,"Contact saved successfully!");
 
-            Cname.setText("");
-            Cnumber.setText("");
-            Cname.requestFocus();
+            contactName.setText("");
+            contactNum.setText("");
+            contactName.requestFocus();
 
         }
         catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            ex.printStackTrace();
 
         }
 
@@ -103,6 +104,32 @@ public class contacts {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                String name,number,cid;
+
+                name=contactName.getText();
+                number=contactNum.getText();
+                cid=idc.getText();
+
+                try{
+                    pst=con.prepareStatement("update mycontacts set name=?,number=? where cid=?");
+                    pst.setString(1,name);
+                    pst.setString(2,number);
+                    pst.setString(3,cid);
+
+                    pst.executeUpdate();
+                    JOptionPane.showMessageDialog(null,"Contact updated successfully!");
+
+                    contactName.setText("");
+                    contactNum.setText("");
+                    idc.setText("");
+                    contactName.requestFocus();
+
+                }
+                catch (SQLException ex) {
+                    ex.printStackTrace();
+
+                }
 
             }
         });
